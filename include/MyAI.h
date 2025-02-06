@@ -79,7 +79,7 @@ private:
 	void MakeMove(int* board, int* red_chess_num, int* black_chess_num, int* cover_chess, const char move[6]);
 	bool Referee(const int* board, const int Startoint, const int EndPoint, const int color);
 	int Expand(const int* board, const int color, int *Result);
-	double Evaluate(const int* board, const int depth);
+	double Evaluate(const int* board, const int depth, const int *cover_chess);
 	double Nega_max(const int* board, int* move, const int red_chess_num, const int black_chess_num, const int* cover_chess, const int color, const int depth, const int remain_depth);
 
 	// Display

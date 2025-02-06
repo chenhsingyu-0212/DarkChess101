@@ -1,0 +1,33 @@
+# Compiler and Flags
+CXX = g++
+CXXFLAGS = -std=c++17 -Wall -Iinclude
+
+# Directories
+SRC_DIR = src
+OBJ_DIR = obj
+BIN_DIR = bin
+
+# Files
+SRCS = $(SRC_DIR)/main.cc $(SRC_DIR)/MyAI.cc $(SRC_DIR)/score.cc
+OBJS = $(OBJ_DIR)/main.o $(OBJ_DIR)/MyAI.o $(OBJ_DIR)/score.o
+TARGET = $(BIN_DIR)/MyAI
+
+# Main target
+all: $(TARGET)
+
+# Linking step
+$(TARGET): $(OBJS)
+	mkdir -p $(BIN_DIR)
+	$(CXX) $(CXXFLAGS) -o $@ $^
+
+# Compilation step
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.cc
+	mkdir -p $(OBJ_DIR)
+	$(CXX) $(CXXFLAGS) -c $< -o $@
+
+# Clean up
+clean:
+	rm -rf $(OBJ_DIR) $(BIN_DIR)
+
+# Phony targets
+.PHONY: all clean
