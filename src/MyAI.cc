@@ -440,8 +440,9 @@ int MyAI::Expand(const int *board, const int color, int *Result)
 }
 
 // Referee
-bool MyAI::Referee(const int* chess, const int from_location_no,
-                   const int to_location_no, const int UserId) {
+bool MyAI::Referee(const int *chess, const int from_location_no,
+                   const int to_location_no, const int UserId)
+{
   bool IsCurrent = true;
   int from_chess_no = chess[from_location_no];
   int to_chess_no = chess[to_location_no];
@@ -452,100 +453,120 @@ bool MyAI::Referee(const int* chess, const int from_location_no,
 
   // 1 Rule: the from chess is empty and dark chess or the to chess is dark
   // chess IsCurrent = false
-  // if (/* condition code */) {
-  //   IsCurrent = false;
-  // }
+  if (/* condition code */)
+  {
+    IsCurrent = false;
+  }
 
   // 2 Rule: the from chess is not my chess
   // IsCurrent = false
-  // else if (/* condition code */) {
-  //   IsCurrent = false;
-  // }
+  else if (/* condition code */)
+  {
+    IsCurrent = false;
+  }
 
   // 3 Rule: the to chess is my chess
   // IsCurrent = false
-  // else if (/* condition code */) {
-  //   IsCurrent = false;
-  // }
+  else if (/* condition code */)
+  {
+    IsCurrent = false;
+  }
 
   // 4 Rule: move distance is 1 step and the to chess is empty
   // IsCurrent = true
-  // else if (/* condition code legal move*/) {
-  //   IsCurrent = true;
-  // }
+  else if (/* condition code legal move*/)
+  {
+    IsCurrent = true;
+  }
 
   // attack and the from chess is not cannon
-  // else if (/* condition code */)  // non cannons
-  // {
-  //   // 5 Rule: move distance is more than 1 step
-  //   // IsCurrent = false
-  //   if (/* condition code */) {
-  //     // strcat(Message,"**cant eat**");
-  //     IsCurrent = false;
-  //   }
+  else if (/* condition code */) // non cannons
+  {
+    // 5 Rule: move distance is more than 1 step
+    // IsCurrent = false
+    if (/* condition code */)
+    {
+      // strcat(Message,"**cant eat**");
+      IsCurrent = false;
+    }
 
-  //   // 6 Rule: judge pawn (pawn only eat pawn and king)
-  //   // IsCurrent = false
-  //   else if (/* condition code */) {
-  //     if (/* condition code */) {
-  //       IsCurrent = false;
-  //     }
-  //   }
+    // 6 Rule: judge pawn (pawn only eat pawn and king)
+    // IsCurrent = false
+    else if (/* condition code */)
+    {
+      if (/* condition code */)
+      {
+        IsCurrent = false;
+      }
+    }
 
-  //   // 7 Rule: judge king (king can't eat pawn)
-  //   // IsCurrent = false
-  //   else if (/* condition code */) {
-  //     IsCurrent = false;
-  //   }
+    // 7 Rule: judge king (king can't eat pawn)
+    // IsCurrent = false
+    else if (/* condition code */)
+    {
+      IsCurrent = false;
+    }
 
-  //   // 8 Rule: judge guard, minister, rook, knight (cannot capture pieces of a
-  //   // higher rank)
-  //   else if (/* condition code */) {
-  //     IsCurrent = false;
-  //   }
-  // }
+    // 8 Rule: judge guard, minister, rook, knight (cannot capture pieces of a
+    // higher rank)
+    else if (/* condition code */)
+    {
+      IsCurrent = false;
+    }
+  }
 
   // attack and the from chess is cannon
-  else  // judge cannons
+  else // judge cannons
   {
     int row_gap = from_row - to_row;
     int col_gap = from_col - to_col;
     int between_Count = 0;
     // slant
-    if (from_row - to_row == 0 || from_col - to_col == 0) {
+    if (from_row - to_row == 0 || from_col - to_col == 0)
+    {
       // row
-      if (row_gap == 0) {
-        for (int i = 1; i < abs(col_gap); i++) {
+      if (row_gap == 0)
+      {
+        for (int i = 1; i < abs(col_gap); i++)
+        {
           int between_chess;
           if (col_gap > 0)
             between_chess = chess[from_location_no - i];
           else
             between_chess = chess[from_location_no + i];
-          if (between_chess != CHESS_EMPTY) between_Count++;
+          if (between_chess != CHESS_EMPTY)
+            between_Count++;
         }
       }
       // column
-      else {
-        for (int i = 1; i < abs(row_gap); i++) {
+      else
+      {
+        for (int i = 1; i < abs(row_gap); i++)
+        {
           int between_chess;
           if (row_gap > 0)
             between_chess = chess[from_location_no - 4 * i];
           else
             between_chess = chess[from_location_no + 4 * i];
-          if (between_chess != CHESS_EMPTY) between_Count++;
+          if (between_chess != CHESS_EMPTY)
+            between_Count++;
         }
       }
 
-      if (between_Count != 1) {
+      if (between_Count != 1)
+      {
         // strcat(Message,"**gun can't eat opp without between one piece**");
         IsCurrent = false;
-      } else if (to_chess_no == CHESS_EMPTY) {
+      }
+      else if (to_chess_no == CHESS_EMPTY)
+      {
         // strcat(Message,"**gun can't eat opp without between one piece**");
         IsCurrent = false;
       }
     }
     // slide
-    else {
+    else
+    {
       // strcat(Message,"**cant slide**");
       IsCurrent = false;
     }
@@ -574,45 +595,54 @@ double MyAI::Evaluate(const int *board, const int depth, const int *cover_chess)
   // --------------- count the number of chess ---------------
   // case 1: count the number of flipped -------------------------------------------------------------------------
   int my_chess_num_flip[7] = {0}, opp_chess_num_flip[7] = {0};
-  
-  // code here (for loop with 32 times)
-  
-    // to calculate the number of flipped chess
-    // code here (my_chess_num_flip and opp_chess_num_flip)
-  
-  
+
+  for (int i = 0; i < 32; i++){
+    if (board[i] != CHESS_EMPTY && board[i] != CHESS_COVER){
+      int piece = board[i] % 7;
+      if (board[i] / 7 == color){
+        my_chess_num_flip[piece]++;
+      } else{
+        opp_chess_num_flip[piece]++;
+      }
+    }
+  }
 
   // case 2: count the number of covered chess -------------------------------------------------------------------
   int my_chess_num_cover[7] = {0}, opp_chess_num_cover[7] = {0};
-  
-  // code here (for loop with 14 times)
-  
-    // use this->CoverChess to calculate the number of covered chess
-    // code here (my_chess_num_cover and opp_chess_num_cover)
+
+  for (int i = 0; i < 14; i++){
+    if (cover_chess[i] > 0){
+      if (i / 7 == color){
+        my_chess_num_cover[i % 7] += cover_chess[i];
+      } else{
+        opp_chess_num_cover[i % 7] += cover_chess[i];
+      }
+      cover_num += cover_chess[i];
+    }
+  }
 
   // case 3: count the number of flipped chess and covered chess -------------------------------------------------
   int my_chess_num[7] = {0}, opp_chess_num[7] = {0};
 
   // code here (for loop with 7 times)
-  
-    // add the number of flipped chess and covered chess
-    // code here (my_chess_num and opp_chess_num)
+
+  // add the number of flipped chess and covered chess
+  // code here (my_chess_num and opp_chess_num)
 
   // --------------- count the board score ---------------
   double board_score = 0;
 
   // case 1: static material values ------------------------------------------------------------------------------
-
   // set the score level
   // static const double values[7] = {//code here (P), //code here (C), //code here (N), //code
   // here (R), //code here (M), //code here (G), //code here (K)};
-  
+
   // use my_chess_num and opp_chess_num to calculate the static score
   // code here (for loop with 7 times)
-    
-    // can use my_chess_num and opp_chess_num multiplied by values to calculate the score
-    // Think with: my_chess_num/opp_chess_num is positive or negative
-    // code here (board_score)
+
+  // can use my_chess_num and opp_chess_num multiplied by values to calculate the score
+  // Think with: my_chess_num/opp_chess_num is positive or negative
+  // code here (board_score)
 
   // case 2: dynamic material values -----------------------------------------------------------------------------
   // score score;
@@ -623,28 +653,28 @@ double MyAI::Evaluate(const int *board, const int depth, const int *cover_chess)
   //                      //code here (K)};
   // score.setScoreLevel(scoreLevel);
 
-  int my_chess_left = 0, opp_chess_left = 0;
-  
+  // int my_chess_left = 0, opp_chess_left = 0;
+
   // use my_chess_num and opp_chess_num to calculate the dynamic score
   // code here (for loop with 7 times)
 
-    // use the score.getDynamicScore() to calculate the dynamic score
-    // score.getDynamicScore(opp-P, opp-C, opp-N, opp-R, opp-M, opp-G, opp-K,
-    // myChessType)
-    // code here (board_score)
+  // use the score.getDynamicScore() to calculate the dynamic score
+  // score.getDynamicScore(opp-P, opp-C, opp-N, opp-R, opp-M, opp-G, opp-K,
+  // myChessType)
+  // code here (board_score)
 
-    // count the number of chess left
-    // code here (my_chess_left)
-    // code here (opp_chess_left)
+  // count the number of chess left
+  // code here (my_chess_left)
+  // code here (opp_chess_left)
 
-  if (my_chess_left == 0)
-  {
-    board_score = -100000;
-  }
-  else if (opp_chess_left == 0)
-  {
-    board_score = 100000;
-  }
+  // if (my_chess_left == 0)
+  // {
+  //   board_score = -100000;
+  // }
+  // else if (opp_chess_left == 0)
+  // {
+  //   board_score = 100000;
+  // }
 
   // --------------- count the attack score ---------------
   int attack_score = 0;
